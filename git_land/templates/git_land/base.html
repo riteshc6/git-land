@@ -1,0 +1,100 @@
+{% load static %}
+<html>
+
+<head>
+    <title>GitLand</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.2.0/css/bootstrap-theme.min.css">
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">GitLand</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {% if user.is_auhtenticated %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'repos' %}">Repositories<span class="sr-only">(current)</span></a>
+                </li>
+                {%endif%}
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="#">Comments</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" href=""></a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li> -->
+            </ul>
+            <!-- remove mr-auto and add pull-right -->
+            <ul class="navbar-nav pull-right">
+                <li class="nav-item">
+                    <!-- <a class="nav-link" href="#">Profile</a> -->
+                    <a class="nav-link" href="#">{{user.username}}</a>
+                </li>
+                <li class="nav-item">
+                    {% if user.is_anonymous %}
+                    <a class="nav-link" href="{% url 'login'%}">login</a>
+                    {% else %}
+                    <a class="nav-link" href="{% url 'logout' %}">logout</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">HACKER NEWS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="col-md-6 collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">News <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Comments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Submit</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 pull-right">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Profile <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    {% if user.is_anonymous %}
+                    <a class="nav-link" href="{% url 'login'%}">login</a>
+                    {% else %}
+                    <a href="#">{{user.name}}</a>
+                    <a class="nav-link" href="{% url 'logout' %}">logout</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav> -->
+
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
