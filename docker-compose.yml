@@ -1,0 +1,38 @@
+ersion: '3'
+services:
+  database:
+    image: postgres
+    environment:
+       POSTGRES_USER: postgres
+       POSTGRES_PASSWORD: postgres
+       POSTGRES_DB: git_land
+    volumes:
+      - my_dbdata:/var/lib/postgresql/data
+
+
+  web:
+    build: .
+    ports:
+      - "8081:80"
+    depends_on:
+      - database
+    links:
+      - "database:db"
+    networks:
+      - webnet
+ 
+  nginx: 
+    image: nginx:latest
+    container_name: production_nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/error.log:/etc/nginx/error_log.log
+      - ./nginx/cache/:/etc/nginx/cache
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    ports:
+      - 8081:80
+      command: /bin/bash -c "envsubst < /etc/nginx/nginx.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    networks:
+      - webnet
+    depends_on:
+      - web

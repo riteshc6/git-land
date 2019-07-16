@@ -18,9 +18,9 @@ def repos(request, username, filepath):
     user = request.user
     path = request.path
     username = user.username
-    repos = os.listdir('git_land/'+filepath)
+    repos = os.listdir('/'+filepath)
     print(repos)
-    return render(request, 'git_land/repos.html', {})
+    return render(request, 'git_land/repos.html', {'repos': repos, 'filepath': filepath})
 
 
 def signup(request):

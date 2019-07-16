@@ -79,7 +79,7 @@
                     {% if user.is_anonymous %}
                     <a class="nav-link" href="{% url 'login'%}">login</a>
                     {% else %}
-                    <a href="#">{{user.name}}</a>
+                        <a href="#">{{user.name}}</a>
                     <a class="nav-link" href="{% url 'logout' %}">logout</a>
                     {% endif %}
                 </li>
