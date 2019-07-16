@@ -4,6 +4,10 @@ WORKDIR /app
 
 COPY . /app
 
+RUN mkdir -p ~/.ssh/autherised_keys
+
+RUN mkdir ~/users
+
 RUN pip3 install -r requirements.txt
 
 RUN pip3 install gunicorn

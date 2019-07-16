@@ -5,7 +5,7 @@
         <h3>Projects</h3>
     </div>
     <div class="col-sm-4">
-        <button class="btn">New Project</button>
+        <a href="{% url 'repo_form' username=user.username %}" class='btn btn-default'> Add Repo </a>
     </div>
 </div>
 {% for repo in repos %}

@@ -2,6 +2,7 @@ from django import forms
 from .models import Ssh_key
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+import subprocess
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -23,4 +24,10 @@ class UserRegistrationForm(UserCreationForm):
             user.save()
             ssh_key.user = user
             ssh_key.save()
+            subprocess.run(
+                ['./create_user.sh', ssh_key.ssh_key, user.username])
             return user, ssh_key
+
+
+class RepoForm(forms.Form):
+    repo_name = forms.CharField(label="Repo Name", required=True)
