@@ -23,6 +23,16 @@ def repos(request, username, filepath):
     return render(request, 'git_land/repos.html', {'repos': repos, 'filepath': filepath})
 
 
+@login_required
+def repos_home(request, username):
+    user = request.user
+    path = request.path
+    username = user.username
+    repos = os.listdir('/')
+    print(repos)
+    return render(request, 'git_land/repos.html', {'repos': repos, 'filepath': 'home'})
+
+
 def signup(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
