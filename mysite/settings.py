@@ -25,7 +25,7 @@ SECRET_KEY = 'ny=#pbx8wyj4yv4z50+&-ul+-u%^fk=ngl6l531hcclmiq)!h)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -73,16 +73,17 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'localhost',
+        'HOST': 'database',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'NAME': 'git_land'
+        'NAME': 'git_land',
+        'PORT': 5432
     }
 }
+print(DATABASES)
 
 
 # Password validation

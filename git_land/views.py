@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 @login_required
 def home(request):
     username = request.user.username
-    return redirect('repos', username=username)
+    return redirect('repos_home', username=username)
 
 
 @login_required
