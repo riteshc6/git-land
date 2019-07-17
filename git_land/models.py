@@ -13,6 +13,7 @@ class Ssh_key(models.Model):
 
 
 class Repository(models.Model):
+    name=models.CharField(max_length=75)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='repositories')
     repo_path = models.FilePathField()
@@ -27,3 +28,4 @@ class Test_info(models.Model):
         'Repository', on_delete=models.CASCADE, related_name='tests')
     test_exit_code = models.IntegerField()
     log = models.TextField()
+    timestamp=models.DateTimeField(default=timezone.now)
