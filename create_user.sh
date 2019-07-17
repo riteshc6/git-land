@@ -4,5 +4,4 @@ cd ~/.ssh
 echo $1 >> id_$2.pub
 cat id_$2.pub >> authorized_keys
 cd ..
-cd users
 mkdir $2

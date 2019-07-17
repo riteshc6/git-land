@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY . /app
 
-RUN mkdir -p ~/.ssh/autherised_keys
+RUN mkdir ~/.ssh
+RUN touch authorized_keys
 
 RUN mkdir ~/users
 

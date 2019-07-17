@@ -14,8 +14,8 @@ services:
   web:
     restart: always
     build: .
-    # ports:
-    #   - "8083:80"
+    ports:
+      - "22:22"
     depends_on:
       - database
     links:
