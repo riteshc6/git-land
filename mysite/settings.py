@@ -76,10 +76,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'youtube.clejaeyrxoaa.ap-south-1.rds.amazonaws.com',
+        'HOST': 'localhost',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'NAME': 'postgres',
+        'NAME': 'git_land',
         'PORT': 5432
     }
 }
@@ -126,15 +126,14 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'login'
 
-#custom
+# custom
 
 extension_mapping = {
-    '.txt': text,
-    '.js':
-    '.py':
-    '.java':
-    '.html':
-    '.php':
-    '.sh':
-    
+    '.txt': 'text',
+    '.js': 'javascript',
+    '.py': 'python',
+    '.java': 'java',
+    '.html': 'html',
+    '.php': 'php',
+    '.sh': 'bash',
 }

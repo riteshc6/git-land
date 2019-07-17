@@ -41,12 +41,11 @@ def repos(request, username, filepath):
 def repo_file(request, username, filepath):
     user = request.user
     username = user.username
-    extension = os.path.splitext('/'+filepath)[1]
-    
     with open('/'+filepath, 'r') as f:
         content = f.read()
-
-    return render(request, 'git_land/repo_file.html', {'content': content})
+    extension = os.path.splitext('/'+filepath)[1]
+    ext_type = settings.extension_mapping[extension]
+    return render(request, 'git_land/repo_file.html', {'content': content, 'ext_type': ext_type})
 
 
 @login_required
