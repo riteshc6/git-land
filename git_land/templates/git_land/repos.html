@@ -8,10 +8,21 @@
         <a href="{% url 'repo_form' username=user.username %}" class='btn btn-default'> Add Repo </a>
     </div>
 </div>
-{% for repo in repos %}
+{% for repo in repos_dir %}
 <div class='row'>
     <div class="col-sm-5">
         <a href="{% url 'repos' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}</a>
+    </div>
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-3">
+    </div>
+</div>
+{% endfor %}
+{% for repo in repos_file %}
+<div class='row'>
+    <div class="col-sm-5">
+        <a href="{% url 'repo_file' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}</a>
     </div>
     <div class="col-sm-4">
     </div>

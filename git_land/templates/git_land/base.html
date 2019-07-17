@@ -7,6 +7,52 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.2.0/css/bootstrap-theme.min.css">
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js">
+    </script>
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/agate.min.css"> -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/atelier-forest-light.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.6.0/dist/highlightjs-line-numbers.min.js">
+    </script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.7.0/highlightjs-line-numbers.min.js">
+    </script> -->
+    <script>
+        hljs.initHighlightingOnLoad();
+        hljs.initLineNumbersOnLoad();
+    </script>
+    <style>
+        .hljs-ln td {
+            padding-left: 5px;
+        }
+
+        .hljs-ln-numbers {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            text-align: center;
+            color: #ccc;
+            border-right: 1px solid #CCC;
+            vertical-align: top;
+            padding: unset;
+            padding-right: 0px;
+
+            /* your custom style here */
+        }
+
+
+
+        /* for block of code */
+        .hljs-ln-code {
+            padding: unset;
+            padding-left: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,42 +96,6 @@
             </ul>
         </div>
     </nav>
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">HACKER NEWS</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="col-md-6 collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">News <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Comments</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Submit</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 pull-right">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Profile <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    {% if user.is_anonymous %}
-                    <a class="nav-link" href="{% url 'login'%}">login</a>
-                    {% else %}
-                        <a href="#">{{user.name}}</a>
-                    <a class="nav-link" href="{% url 'logout' %}">logout</a>
-                    {% endif %}
-                </li>
-            </ul>
-        </div>
-    </nav> -->
 
     <div class="content container">
         <div class="row">
