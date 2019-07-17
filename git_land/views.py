@@ -57,15 +57,15 @@ def repos_home(request, username):
     print(repos)
     repos_file = []
     repos_dir = []
-    for entry in os.scandir('/'+'home'):
+    for entry in os.scandir('/home'):
         if entry.is_file():
             print(entry.name)
             repos_file.append(entry.name)
-    for entry in os.scandir('/'+'home'):
+    for entry in os.scandir('/home'):
         if entry.is_dir():
             print(entry.name)
             repos_dir.append(entry.name)
-    return render(request, 'git_land/repos.html', {'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': 'home'})
+    return render(request, 'git_land/repos.html', {'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': '/home'})
 
 
 def signup(request):
