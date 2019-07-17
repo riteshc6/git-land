@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Ssh_key(models.Model):
     key_name = models.CharField(max_length=50)
-    ssh_key = models.CharField(max_length=10000)
+    ssh_key = models.TextField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE, related_name='ssh_keys')
 

@@ -128,13 +128,3 @@ LOGOUT_REDIRECT_URL = 'login'
 
 #custom
 
-extension_mapping = {
-    '.txt': text,
-    '.js':
-    '.py':
-    '.java':
-    '.html':
-    '.php':
-    '.sh':
-    
-}
