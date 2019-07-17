@@ -1,16 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-        {{ message }}
-        </li>
-        {% endfor %}
-</ul>
-{% endif %}
 <span>Test Results</span>
 <button type="button" onClick="display_test_results();">Display test results</button>
 
@@ -21,7 +11,7 @@
 
     function display_test_results() {
         $.ajax({
-            'url': "{{ url 'call_celery' repo_path='/home/ubuntu/docker-test3/git-land/' commit_id=1 }}",
+            'url': '/bk/ci/home/ubuntu/docker-test3/git-land/1',
             'method': 'GET',
             success: function (data, status, request) {
                 status_url = request.getResponseHeader('Location');
@@ -37,7 +27,9 @@
             if (data['state'] == 'SUCCESS') {
                 if ('result' in data) {
                     var hidden = document.createElement('a')
-                    hidden.setAttribute('href','{{ url "test_result" username=request.user.username repo_id=data["repo_id"] }}')
+                    var repo_id=data['repo_id']
+                    repo_id=21
+                    hidden.setAttribute('href',"{% url 'test_result' username=request.user.username repo_id=1 %}")
                     hidden.setAttribute('style', 'visibility: hidden')
                     document.body.append(hidden)
                     hidden.click()

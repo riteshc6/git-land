@@ -13,7 +13,7 @@
 cd "$(find -iname "docker-compose.yml" -printf '%h' -quit)"
 
 # build the containers from the docker-compose
-timeout --preserve-status -k 10 10 sudo docker-compose up --build
+timeout --preserve-status -k 10 60 sudo docker-compose up --build
 
 exit_code=$?
 echo $exit_code

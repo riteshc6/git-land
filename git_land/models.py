@@ -24,6 +24,6 @@ class Test_info(models.Model):
     commit_id = models.CharField(max_length=100)
     commit_message = models.TextField()
     repo = models.ForeignKey(
-        'Repository', on_delete=models.CASCADE, related_name='tests')
+        'Repository', on_delete=models.CASCADE, related_name='tests',null=True)
     test_exit_code = models.IntegerField()
     log = models.TextField()

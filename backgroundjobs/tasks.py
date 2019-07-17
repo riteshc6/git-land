@@ -13,4 +13,4 @@ def run_the_container(repo_path,commit_id):
     test_info=Test_info(commit_id=commit_id,commit_message='123',test_exit_code=proc.returncode,log=proc.stdout.decode('utf-8'))
     test_info.save()
 
-    return {'result':test_info.id,'repo_id':test_info.repo.id}    
+    return {'result':test_info.id,'repo_id':1}    

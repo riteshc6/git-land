@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .tasks import run_the_container
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 # from celery.result import AsyncResult
 from django.http import JsonResponse
@@ -16,9 +16,10 @@ def take_the_control(repo_path,commit_id):
     # call_celery(repo_path,commit_id)
     pass
 
-def call_celery(request, repo_path, commit_id):
+def call_celery(request,repo_path,commit_id):
+    repo_path='/'+repo_path
     task = run_the_container.delay(repo_path, commit_id)
-    return 202, {'Location': reverse('check_status') + task.id}
+    return JsonResponse({'Location': reverse('check_status',kwargs={'task_id':task.id}),'status_code':202})
     # return check_status(request,task.id)
 
 
@@ -30,7 +31,7 @@ def check_status(request, task_id):
     if task.info:
         response = {
             'state': task.state,
-            'result': task.info.get('result', None)
+            'result': task.info[0]
         }
 
     # if task.state == 'PENDING':
@@ -58,6 +59,9 @@ def display_messages(request, test_id):
     return render(request, 'notifications.html')
 
 def display_all_messages(request,username,repo_id):
-    repo=Repository.objects.get(id=repo_id)
-    test_info=Test_info.objects.filter(repo_id=repo.id).all()
-    return render(request,'test_results.html',{'test_info':test_info, 'repo_id':repo.id})
+    # repo=Repository.objects.get(id=repo_id)
+    test_info=Test_info.objects.all()
+    return render(request,'test-results.html',{'test_info':test_info, 'repo_id':repo_id})
+
+def  test(request):
+    return render(request,'test.html')

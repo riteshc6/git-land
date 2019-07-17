@@ -9,16 +9,16 @@
 <div>
     {{test.commit_id}}&nbsp;|&nbsp;
     {{test.commit_message}}&nbsp;<br>
-    {% if test.test_exit_code==0 %}
+    {% if test.test_exit_code == 0 %}
     <span>Test cases have executed successfully</span>
-    {% elif test.test_exit_code==1 %}
+    {% elif test.test_exit_code == 1 %}
     <span>Error was raised during testing</span>
-    {% elif test.test_exit_code==2 %}
+    {% elif test.test_exit_code == 2 %}
     <span>Timedout during the testing</span>
     <br> Exit code: {{test.test_exit_code}}<br>
     Test log:<br>
     {{test.log}}
-
+    {% endif %}
 </div>
 {% endfor %}
 {% endblock %}
