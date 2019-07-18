@@ -1,0 +1,62 @@
+{% extends 'git_land/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body,
+    html {
+        height: 100%;
+    }
+
+    .app-nav {
+        display: none;
+    }
+
+    .container {
+        max-width: 100%;
+        width: 100%;
+        padding: 0px;
+    }
+
+    .para {
+        color: white;
+        width: 50%
+    }
+
+    .logo img,
+    .logo h3 {
+        height: 5em;
+        padding: 10px;
+        color: white
+    }
+
+    .btns {
+        margin-top: 4em;
+        width: 40%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    /* .btns>a {
+        background-color: #e65328
+    } */
+</style>
+<div class="container" style="background-color: #403368; height: 100%">
+
+    <div class="left-align logo"><img class="left" src="{% static 'assets/icons/5847f997cef1014c0b5e48c1.png' %}"
+            alt="">
+        <h3>GitLand</h3>
+    </div>
+
+    <div class=" container para">
+        <h1 class="center-align">A full DevOps toolchain.*</h1>
+        <p class="center-align">GitLab is a single application for the entire software development lifecycle. From
+            project planning and source code management to CI/CD, monitoring, and security.</p>
+        <p class="center-align">*No assembly requred.</p>
+    </div>
+    <div class="container btns">
+        <a class="btn waves-effect orange darken-4 waves-light" href="{% url 'login' %}">Sign in</a>
+        <a class="btn waves-effect orange darken-4 waves-light" href="{% url 'signup' %}">Register</a>
+
+    </div>
+</div>
+{% endblock %}

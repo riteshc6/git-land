@@ -16,6 +16,10 @@
     </script>
     <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.7.0/highlightjs-line-numbers.min.js">
     </script> -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     <script>
         hljs.initHighlightingOnLoad();
         hljs.initLineNumbersOnLoad();
@@ -23,11 +27,6 @@
     <style>
         .hljs-ln td {
             padding-left: 5px;
-        }
-
-        .hljs {
-            max-height: 30em;
-            overflow: scroll;
         }
 
         .hljs-ln-numbers {
@@ -48,8 +47,6 @@
             /* your custom style here */
         }
 
-
-
         /* for block of code */
         .hljs-ln-code {
             padding: unset;
@@ -59,7 +56,10 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light app-nav">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'assets/icons/5847f997cef1014c0b5e48c1.png' %}" height="30" alt="">
+        </a>
         <a class="navbar-brand" href="#">GitLand</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,17 +68,18 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                {% if user.is_auhtenticated %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'repos' %}">Repositories<span class="sr-only">(current)</span></a>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'repos_home' username=user.username %}">Repositories</a>
                 </li>
-                {%endif%}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'repo_form' username=user.username %}">Add Repository</a>
+                </li>
+                {% endif %}
                 <!-- <li class="nav-item">
                     <a class="nav-link" href="#">Comments</a>
                 </li> -->
-                <li class="nav-item">
-                    <a class="nav-link" href=""></a>
-                </li>
+
                 <!-- <li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>
                 </li> -->
@@ -86,7 +87,6 @@
             <!-- remove mr-auto and add pull-right -->
             <ul class="navbar-nav pull-right">
                 <li class="nav-item">
-                    <!-- <a class="nav-link" href="#">Profile</a> -->
                     <a class="nav-link" href="#">{{user.username}}</a>
                 </li>
                 <li class="nav-item">

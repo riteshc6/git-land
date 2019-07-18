@@ -1,11 +1,28 @@
 {% extends 'git_land/base.html' %}
 {% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Warning !</strong> {{message}}
+        </div>
+        </li>
+        {% endfor %}
+</ul>
+{% endif %}
 <div class='row'>
     <div class="col-sm-8">
+        {% if repo_name %}
+        <h3> {{repo_name}} </h3>
+        {% else %}
         <h3>Projects</h3>
+        {% endif %}
     </div>
     <div class="col-sm-4">
-        <a href="{% url 'repo_form' username=user.username %}" class='btn btn-default'> Add Repo </a>
+        <!-- <a href="{% url 'repo_form' username=user.username %}"
+            class='btn waves-effect orange darken-4 waves-light valign-wrapper'> Add
+            Repo </a> -->
     </div>
 </div>
 {% for repo in repos_dir %}

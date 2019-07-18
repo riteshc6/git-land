@@ -123,7 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/welcome'
 LOGOUT_REDIRECT_URL = 'login'
 
 # custom
@@ -136,4 +136,5 @@ extension_mapping = {
     '.html': 'html',
     '.php': 'php',
     '.sh': 'bash',
+    '.md': 'md'
 }
