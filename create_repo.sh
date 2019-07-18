@@ -12,6 +12,9 @@ do
     unset \$(git rev-parse --local-env-vars)
     cd ~/$1/$2
     git pull
+    \$oldrev
+    \$newrev
+    \$ref
 done
 
 EOL

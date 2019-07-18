@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser
+#from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 
@@ -13,7 +13,7 @@ class Ssh_key(models.Model):
 
 
 class Repository(models.Model):
-    name=models.CharField(max_length=75)
+    name=models.CharField(max_length=75, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='repositories')
     repo_path = models.FilePathField()
@@ -25,7 +25,7 @@ class Test_info(models.Model):
     commit_id = models.CharField(max_length=100)
     commit_message = models.TextField()
     repo = models.ForeignKey(
-        'Repository', on_delete=models.CASCADE, related_name='tests')
+        'Repository', on_delete=models.CASCADE, related_name='tests', null=True)
     test_exit_code = models.IntegerField()
     log = models.TextField()
-    timestamp=models.DateTimeField(default=timezone.now)
+    timestamp=models.DateTimeField(default=timezone.now, null=True)

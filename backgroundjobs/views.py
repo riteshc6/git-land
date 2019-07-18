@@ -3,7 +3,7 @@ import sys
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from .tasks import run_the_container
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -25,13 +25,16 @@ def check_status(task_id):
     response = {
         'state': task.state
     }
-    if task.info:
-        response = {
-            'state': task.state,
-            'result': task.info[0]
-        }
+    #print(task.info)
+    #if task.info:
+     #   response = {
+      #      'state': task.state,
+       #     'result': task.info[0]
+        #}
 
     if task.state == 'PENDING':
+        import time
+        time.sleep(1)
         return check_status(task_id)
     elif task.state == 'SUCCESS':
         # return display_messages(response['result'])
