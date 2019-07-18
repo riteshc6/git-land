@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'backgroundjobs',
     'django_celery_results',
     'django_extensions',
+    'notifications',
 ]
 
 MIDDLEWARE = [

@@ -22,14 +22,14 @@ def call_celery(repo_path,commit_id):
 
 def check_status(task_id):
     task = run_the_container.AsyncResult(task_id)
-    response = {
-        'state': task.state
-    }
-    if task.info:
-        response = {
-            'state': task.state,
-            'result': task.info[0]
-        }
+    # response = {
+    #     'state': task.state
+    # }
+    # if task.info:
+    #     response = {
+    #         'state': task.state,
+    #         'result': task.info[0]
+    #     }
 
     if task.state == 'PENDING':
         return check_status(task_id)
