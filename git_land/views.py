@@ -71,11 +71,11 @@ def repos_home(request, username):
     user = request.user
     path = request.path
     username = user.username
-    repos = os.listdir('/home')
+    repos = os.listdir('/home/gitlab/' + username)
     print(repos)
     repos_file = []
     repos_dir = []
-    base_path = 'home'
+    base_path = 'home/gitlab/' + username'
     for entry in os.scandir('/'+base_path):
         if entry.is_file():
             print(entry.name)
@@ -110,9 +110,9 @@ def repo_form(request, username):
             username = request.user.username
             repo_data = Repository()
             repo_name = form.cleaned_data['repo_name']
-            # subprocess.run(
-            #     ['./create_repo.sh', username, repo_name])
-            repo_path = '/home/gitlab/'+username+'/'+repo_name
+            subprocess.run(
+                ['./create_repo.sh', username, repo_name])
+            repo_path = '/home/gitlab/' + username + '/' + repo_name
             repo_data.user = request.user
             repo_data.name = repo_name
             repo_data.repo_path = repo_path

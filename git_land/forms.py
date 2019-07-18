@@ -7,7 +7,7 @@ import subprocess
 
 class UserRegistrationForm(UserCreationForm):
     key_name = forms.CharField(label="key name", required=True)
-    ssh_key = forms.CharField(label="ssh key", required=True)
+    ssh_key = forms.CharField(label="ssh key", required=True, widget=forms.Textarea)
 
     class Meta:
         model = User

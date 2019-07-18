@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'git_land',
+    'backgroundjobs',
+    'django_celery_results',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -76,10 +79,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'localhost',
+        'HOST': 'youtube.clejaeyrxoaa.ap-south-1.rds.amazonaws.com',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'NAME': 'git_land',
+        'NAME': 'postgres',
         'PORT': 5432
     }
 }
@@ -138,3 +141,10 @@ extension_mapping = {
     '.sh': 'bash',
     '.md': 'md'
 }
+
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE

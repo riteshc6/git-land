@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+{#<!-- 
+<span>Test Results</span>
+<button type="button" onClick="display_test_results();">Display test results</button> -->#}
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
+<script type="text/javascript">
+
+    function display_test_results() {
+        $.ajax({
+            'url': '/bk/ci/home/ubuntu/docker-test3/git-land/1',
+            'method': 'GET',
+            success: function (data, status, request) {
+                status_url = request.getResponseHeader('Location');
+                update_progress(status_url);
+            }
+        })
+    }
+
+    function update_progress(status_url) {
+        
+        $.getJSON(status_url, function (data) {
+            console.log(data['state'])
+            if (data['state'] == 'SUCCESS') {
+                if ('result' in data) {
+                    var hidden = document.createElement('a')
+                    var repo_id=data['repo_id']
+                    repo_id=21
+                    hidden.setAttribute('href',"{% url 'test_result' username=request.user.username repo_id=1 %}")
+                    hidden.setAttribute('style', 'visibility: hidden')
+                    document.body.append(hidden)
+                    hidden.click()
+                }
+            } else {
+                setTimeout(function () {
+                    update_progress(status_url);
+                }, 500);
+            }
+        });
+    }
+</script>
+
+{% endblock %}
