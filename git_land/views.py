@@ -32,7 +32,7 @@ def repos(request, username, filepath):
     path = request.path
     username = user.username
     base_dir = str(filepath).split('/')[:1]
-    repo_name = str(filepath).split('/')[1]
+    repo_name = str(filepath).split('/')[3]
     repos_dir = []
     repos_file = []
     try:
@@ -41,7 +41,7 @@ def repos(request, username, filepath):
                 print(entry.name)
                 repos_file.append(entry.name)
         for entry in os.scandir('/'+filepath):
-            if entry.is_dir():
+            if entry.is_dir() and not entry.name.endswith(".git"):
                 print(entry.name)
                 repos_dir.append(entry.name)
     except FileNotFoundError:
@@ -75,13 +75,13 @@ def repos_home(request, username):
     print(repos)
     repos_file = []
     repos_dir = []
-    base_path = 'home/gitlab/' + username'
+    base_path = 'home/gitlab/' + username
     for entry in os.scandir('/'+base_path):
         if entry.is_file():
             print(entry.name)
             repos_file.append(entry.name)
     for entry in os.scandir('/'+base_path):
-        if entry.is_dir():
+        if entry.is_dir() and not entry.name.endswith(".git"):
             print(entry.name)
             repos_dir.append(entry.name)
     return render(request, 'git_land/repos.html', {'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': base_path})

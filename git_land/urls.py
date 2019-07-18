@@ -1,6 +1,8 @@
 
 from django.urls import path, include
 from . import views
+from mysite import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('signup/', views.signup, name='signup'),
@@ -12,3 +14,6 @@ urlpatterns = [
     path('', views.landing_page, name='landing_page'),
     path('welcome', views.home, name='home')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
