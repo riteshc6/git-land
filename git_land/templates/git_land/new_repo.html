@@ -1,0 +1,48 @@
+{% extends 'git_land/base.html' %}
+{% block content %}
+<h3>The repository for this project is empty</h3>
+<p>You can create files directly in GitLab using one of the following options.</p>
+
+<h5>Command line instructions</h5>
+<p>You can also upload existing files from your computer using the instructions below.</p>
+
+<h5>Create a new repository</h5>
+<div>
+    <p>
+        git clone {{ url }}<br>
+        cd {{repo_name}}<br>
+        touch README.md<br>
+        git add README.md<br>
+        git commit -m "add README"<br>
+        git push -u origin master<br>
+
+    </p>  
+
+</div>
+
+<h5>Push an existing folder</h5>
+<div>
+    <p>
+        cd existing_folder<br>
+        git init<br>
+        git remote add origin {{ url }}<br>
+        git add .<br>
+        git commit -m "Initial commit"<br>
+        git push -u origin master<br>
+    </p>  
+
+</div>
+
+<h5>Push an existing Git repository</h5>
+<div>
+    <p>
+        cd existing_repo<br>
+        git remote rename origin old-origin<br>
+        git remote add origin {{ url }}<br>
+        git push -u origin --all<br>
+        git push -u origin --tags<br>
+    </p>  
+
+</div>
+
+{% endblock %}

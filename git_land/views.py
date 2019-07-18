@@ -31,14 +31,22 @@ def repos(request, username, filepath):
     user = request.user
     path = request.path
     username = user.username
-    base_dir = str(filepath).split('/')[:1]
+    base_path = str(filepath).split('/')[:2]
+    path_tree = str(filepath).split('/')[3:]
     repo_name = str(filepath).split('/')[3]
+    last_name = str(filepath).split('/')[-1:][0]
     repos_dir = []
     repos_file = []
+    md_present = False
+    content = None
     try:
         for entry in os.scandir('/'+filepath):
             if entry.is_file():
                 print(entry.name)
+                if entry.name.endswith("README.md") and md_present == False:
+                    with open('/'+filepath+'/'+entry.name, 'r') as f:
+                        content = f.read()
+                    md_present = True
                 repos_file.append(entry.name)
         for entry in os.scandir('/'+filepath):
             if entry.is_dir() and not entry.name.endswith(".git"):
@@ -47,7 +55,11 @@ def repos(request, username, filepath):
     except FileNotFoundError:
         raise Http404("Poll does not exist")
 
-    return render(request, 'git_land/repos.html', {'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': filepath, 'repo_name': repo_name})
+    if len(repos_dir) == 0 and len(repos_file) == 0:
+       url = "gitlab@13.233.153.31:" + username + "/" + repo_name + ".git"
+       return render(request, 'git_land/new_repo.html', {'url': url,'repo_name':repo_name})
+    
+    return render(request, 'git_land/repos.html', {'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': filepath, 'repo_name': repo_name, 'last_name': last_name, 'md_present': md_present, 'content':content, 'path_tree': path_tree, 'base_path': base_path})
 
 
 @login_required
@@ -60,10 +72,10 @@ def repo_file(request, username, filepath):
     except FileNotFoundError or NotADirectoryError:
         messages.error(request, 'path does not exists')
         return redirect('repos_home', username=username)
-
+    file_name = str(filepath).split('/')[-1:][0]
     extension = os.path.splitext('/'+filepath)[1]
     ext_type = settings.extension_mapping[extension]
-    return render(request, 'git_land/repo_file.html', {'content': content, 'ext_type': ext_type})
+    return render(request, 'git_land/repo_file.html', {'content': content, 'ext_type': ext_type, 'file_name': file_name})
 
 
 @login_required
@@ -118,8 +130,11 @@ def repo_form(request, username):
             repo_data.repo_path = repo_path
             repo_data.last_update = timezone.now()
             repo_data.save()
-            return redirect('repos_home', username=username)
+            # return redirect('repos_home', username=username)
+            url = "gitlab@13.233.153.31:" + username + "/" + repo_name + ".git"
+            return render(request, 'git_land/new_repo.html', {'url': url,'repo_name':repo_name})
         return redirect('repo_form', username=username)
     else:
         form = RepoForm()
         return render(request, 'git_land/repo_form.html', {'form': form, 'user': request.user})
+

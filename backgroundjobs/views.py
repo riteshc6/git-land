@@ -11,6 +11,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from git_land.models import Test_info,Repository
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 
 def call_celery(repo_path,commit_id):
@@ -58,10 +59,11 @@ def check_status(task_id):
 
 #     return render(request, 'notifications.html')
 
-def display_all_messages(request,username,repo_id):
-    # repo=Repository.objects.get(id=repo_id)
-    test_info=Test_info.objects.filter(repo_id=repo_id).all()
-    return render(request,'test-results.html',{'test_info':test_info, 'repo_id':repo_id})
+def display_all_messages(request,username,repo_name):
+    user=User.objects.get(username=username)
+    repo=Repository.objects.filter(name=repo_name).filter(user=user).first()
+    test_info=Test_info.objects.filter(repo=repo).all()
+    return render(request,'test-results.html',{'test_info':test_info, 'repo_name':repo_name})
 
 # def  test(request):
 #     return render(request,'test.html')

@@ -140,7 +140,8 @@ extension_mapping = {
     '.html': 'html',
     '.php': 'php',
     '.sh': 'bash',
-    '.md': 'md'
+    '.md': 'md',
+    '.json': 'json'
 }
 
 BROKER_URL = 'redis://localhost:6379'

@@ -1,24 +1,52 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class='row'>
-    <div class="col-sm-8">
-        <h3>Test Results</h3>
-    </div>
+   <div class="col-sm-8">
+       <h3>Test Results</h3>
+   </div>
 </div>
+<style>
+   #more {
+       display: none;
+   }
+</style>
 {% for test in test_info %}
 <div>
-    {{test.commit_id}}&nbsp;|&nbsp;
-    {{test.commit_message}}&nbsp;<br>
-    {% if test.test_exit_code == 0 %}
-    <span>Test cases have executed successfully</span>
-    {% elif test.test_exit_code == 1 %}
-    <span>Error was raised during testing</span>
-    {% elif test.test_exit_code == 2 %}
-    <span>Timedout during the testing</span>
-    <br> Exit code: {{test.test_exit_code}}<br>
-    Test log:<br>
-    {{test.log}}
-    {% endif %}
+   <p>
+       {{test.commit_message}}&nbsp;|&nbsp;
+       {{test.commit_id}}&nbsp;
+       |&nbsp;at&nbsp;|&nbsp;{{test.timestamp|date:'Y-m-d H:i'}}<br>
+       {% if test.test_exit_code == 0 %}
+       <span>Test cases have executed successfully</span>
+       {% elif test.test_exit_code == 1 %}
+       <span>Error was raised during testing</span>
+       {% elif test.test_exit_code == 2 %}
+       <span>Timedout during the testing</span>
+       <br> Exit code: {{test.test_exit_code}}
+       {% endif %}
+       <span id="dots">...</span>
+       <button onclick="myFunction()" id="myBtn">Show logs</button>
+       <span id="more">{{test.log}}</span>
+   </p>
+
 </div>
+
+<script>
+   function myFunction() {
+       var dots = document.getElementById("dots");
+       var moreText = document.getElementById("more");
+       var btnText = document.getElementById("myBtn");
+
+       if (dots.style.display === "none") {
+           dots.style.display = "inline";
+           btnText.innerHTML = "Show logs";
+           moreText.style.display = "none";
+       } else {
+           dots.style.display = "none";
+           btnText.innerHTML = "Hide logs";
+           moreText.style.display = "inline";
+       }
+   }
+</script>
 {% endfor %}
 {% endblock %}
