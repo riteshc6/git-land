@@ -93,7 +93,7 @@ def repo_form(request, username):
             repo_name = form.cleaned_data['repo_name']
             subprocess.run(
                 ['./create_repo.sh', username, repo_name])
-            repo_path = '~/users/'+username+repo_name
+            repo_path = '/home/gitlab/'+ username + '/' + repo_name
             repo_data.user = request.user
             repo_data.repo_path = repo_path
             repo_data.last_update = timezone.now()

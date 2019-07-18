@@ -7,7 +7,7 @@
 #cd $1
 
 # checkout to recent push's commit using commit_id
-#git checkout $2
+git checkout $1
 
 path_for_testing=$(find -iname "docker-compose.yml" -printf '%h' -quit)
 
@@ -15,9 +15,9 @@ if [ $path_for_testing!='' ]
 then
     # find the direcotry which contains docker-compose.yml and change the pwd to it
     cd $path_for_testing
-
+    $(pwd)
     # build the containers from the docker-compose
-    timeout --preserve-status -k 10 60 sudo docker-compose up --build
+    timeout --preserve-status -k 10 60 docker-compose up --build
 
     exit_code=$?
     echo $exit_code
@@ -27,11 +27,11 @@ then
         sudo docker-compose down
         exit 2
     elif [ $exit_code == 0 ]
-    then 
+    then
         echo "passed"
         sudo docker-compose down
         exit 0
-    else 
+    else
         echo "failed"
         sudo docker-compose down
         exit 1

@@ -4,6 +4,7 @@ cd
 cd $1
 git init --bare $2.git
 git clone gitlab@13.233.153.31:$1/$2.git
+path=$(pwd)/$2
 cat >  $2.git/hooks/post-receive <<EOL
 #!/bin/bash
 
@@ -12,9 +13,10 @@ do
     unset \$(git rev-parse --local-env-vars)
     cd ~/$1/$2
     git pull
-    \$oldrev
-    \$newrev
-    \$ref
+    cd ~/git-land
+    source venv/bin/activate
+    export DJANGO_SETTINGS_MODULE=mysite.settings
+    python -c "import django; django.setup(); from backgroundjobs.views import call_celery; call_celery('$path', '\$newrev')"
 done
 
 EOL
