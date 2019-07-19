@@ -32,3 +32,19 @@ class UserRegistrationForm(UserCreationForm):
 class RepoForm(forms.Form):
     repo_name = forms.CharField(label="Repo Name", required=True)
     
+
+class OauthRegistrationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1','password2',)
+
+
+
+class SshForm(forms.ModelForm):
+    key_name = forms.CharField(label="key name", required=True)
+    ssh_key = forms.CharField(label="ssh key", required=True, widget=forms.Textarea)
+
+    class Meta:
+        model = Ssh_key
+        fields = ('key_name', 'ssh_key')
+

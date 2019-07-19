@@ -25,7 +25,7 @@ SECRET_KEY = 'ny=#pbx8wyj4yv4z50+&-ul+-u%^fk=ngl6l531hcclmiq)!h)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['ec2-13-233-153-31.ap-south-1.compute.amazonaws.com','13-233-153-31','*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
     'git_land',
     'backgroundjobs',
     'django_celery_results',
@@ -69,10 +70,25 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+
+
+AUTHENTICATION_BACKENDS = (
+ 'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
+ 'social_core.backends.google.GoogleOpenId',  # for Google authentication
+ 'social_core.backends.google.GoogleOAuth2',  # for Google authentication
+ 'social_core.backends.github.GithubOAuth2',  # for Github authentication
+ 'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
+ 
+ 'django.contrib.auth.backends.ModelBackend',
+)
+
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
@@ -109,6 +125,8 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='945923114958-en14ocu9t75l8nch0a947ngt2koj0vic.apps.googleusercontent.com'  #Paste CLient Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'l1fv1OirFAiHUJNm1xXpxR2D' #Paste Secret
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -129,7 +147,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-LOGIN_REDIRECT_URL = '/welcome'
+LOGIN_REDIRECT_URL = 'check_ssh_key'
 LOGOUT_REDIRECT_URL = 'login'
 
 # custom

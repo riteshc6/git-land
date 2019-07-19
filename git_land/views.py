@@ -3,8 +3,8 @@ import traceback
 import subprocess
 from django.shortcuts import render, get_object_or_404, redirect, Http404
 from django.contrib.auth import login, authenticate
-from .forms import UserRegistrationForm, RepoForm
-from .models import Repository, Ssh_key, Repository
+from .forms import UserRegistrationForm, RepoForm,OauthRegistrationForm,SshForm
+from .models import Repository, Ssh_key, Test_info
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -12,6 +12,44 @@ from mysite import settings
 from django.contrib import messages
 
 # Create your views here.
+
+def oauth_signup(request):
+    if request.method == 'POST':
+        form = OauthRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save() 
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('check_ssh_key')
+    else:
+        form = OauthRegistrationForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+@login_required
+def check_ssh_key(request):
+    user=get_object_or_404(User,username=request.user.username)
+    ssh=Ssh_key.objects.filter(user=user).first()
+    if ssh is None:
+        if request.method == 'POST':
+            form=SshForm(request.POST)
+            if form.is_valid():
+                ssh_key = Ssh_key()
+                ssh_key.key_name = form.cleaned_data['key_name']
+                ssh_key.ssh_key = form  .cleaned_data['ssh_key']
+                ssh_key.user=request.user
+                ssh_key.save()
+                subprocess.run(['./create_user.sh', ssh_key.ssh_key, request.user.username])
+                return redirect('home')
+            else:
+                return render(request,'registration/ssh.html',{'form':form})   
+        else:
+            form = SshForm()
+        return render(request,'registration/ssh.html',{'form':form})
+    else:
+        return redirect('home')
+        
 
 
 @login_required
