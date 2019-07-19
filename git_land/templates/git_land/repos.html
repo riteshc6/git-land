@@ -1,44 +1,61 @@
 {% extends 'git_land/base.html' %}
 {% block content %}
-<style>
-   
-</style>
-<!-- {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Warning !</strong> {{message}}
-        </div>
-        </li>
-        {% endfor %}
-</ul>
-{% endif %}
-<div class='row'>
-    <div class="col-sm-8">
-        {% if repo_name %}
-        <h4> {{repo_name}} </h4>
-        {% else %}
-        <h4>Projects</h4>
-        {% endif %}
-        {% for dir,path in list_path %}
-        <a href="{% url 'repos' username=user.username filepath=path %}">{{dir}}</a><span> > </span>
-        {% endfor %}
-    </div>
-    <div class="col-sm-4 valign-wrapper">
-        {% if repo_name %}
-        <a href="/test/{{user.username}}/{{repo_name}}"><button type="button"
-                class="btn waves-effect green darken-3 waves-light  btn-small">Display test results</button></a>
-        {% endif %}
-    </div>
-</div> -->
 {% include "git_land/header.html" %}
-<div class="file-list">
+{% if repo_name %}
+<table class="table table-hover" style='border:solid lightgrey 1px'>
+    <thead style='background-color:#fafafa'>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Last commit</th>
+	    <th scope="col">Last update</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for repo, last_commit, last_update in repos_dir %}
+        <tr>
+            <td>
+                <div class="col-sm-5">
+                    <a href="{% url 'repos' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}</a>
+                </div>
+            </td>
+            <td>{{last_commit}}</td>
+            <td>{{last_update}}</td>
+        </tr>
+        {% endfor %}
+        {% for repo, last_commit, last_update in repos_file %}
+        <tr>
+            <td>
+                <div class="col-sm-5">
+                    <a
+                        href="{% url 'repo_file' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}</a>
+                </div>
+            </td>
+            <td>{{last_commit}}</td>
+	    <td>{{last_update}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="repo-list">
     <hr>
-    {% for repo in repos_dir %}
+    {% for repo in all_repos %}
     <div class='row'>
         <div class="col-sm-5">
-            <a href="{% url 'repos' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}</a>
+            <a href="{% url 'repos' username=user.username filepath=repo.repo_path %}">{{repo.name}}</a>
+        </div>
+        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-4">
+            <p class="last-update">last updated {{repo.last_update}}</p>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    <!-- {% for repo in repos_file %}
+    <div class='row'>
+        <div class="col-sm-5">
+            <a href="{% url 'repo_file' username=user.username filepath=repo.filepath %}">{{repo}}</a>
         </div>
         <div class="col-sm-4">
         </div>
@@ -46,20 +63,9 @@
         </div>
     </div>
     <hr>
-    {% endfor %}
-    {% for repo in repos_file %}
-    <div class='row'>
-        <div class="col-sm-5">
-            <a href="{% url 'repo_file' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}</a>
-        </div>
-        <div class="col-sm-4">
-        </div>
-        <div class="col-sm-3">
-        </div>
-    </div>
-    <hr>
-    {% endfor %}
+    {% endfor %} -->
 </div>
+
 <!-- <div class="file-list">
     <div class="collection">
         {% for repo in repos_dir %}
@@ -87,6 +93,9 @@
         {% endfor %}
     </div>
 </div> -->
+
+{% endif %}
+
 {% if last_name == repo_name and md_present %}
 <pre>
     <h4>README.md</h4>

@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'youtube.clejaeyrxoaa.ap-south-1.rds.amazonaws.com',
+        'HOST': 'gitland.clejaeyrxoaa.ap-south-1.rds.amazonaws.com',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'NAME': 'postgres',

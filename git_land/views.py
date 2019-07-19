@@ -1,4 +1,5 @@
 import os
+import traceback
 import subprocess
 from django.shortcuts import render, get_object_or_404, redirect, Http404
 from django.contrib.auth import login, authenticate
@@ -35,7 +36,7 @@ def repos(request, username, filepath):
     print(list_path)
     base_path = str(filepath).split('/')[:2]
     path_tree = str(filepath).split('/')[3:]
-    repo_name = str(filepath).split('/')[3]
+    repo_name = str(filepath).split('/')[4]
     last_name = str(filepath).split('/')[-1:][0]
     repos_dir = []
     repos_file = []
@@ -49,16 +50,29 @@ def repos(request, username, filepath):
                     with open('/'+filepath+'/'+entry.name, 'r') as f:
                         content = f.read()
                     md_present = True
-                repos_file.append(entry.name)
-        for entry in os.scandir('/'+filepath):
-            if entry.is_dir() and not entry.name.endswith(".git"):
+                proc = subprocess.run(['./time_commit.sh', entry.name, filepath], stdout=subprocess.PIPE)
+                proc_out = proc.stdout.decode('utf-8').split('|')
+                last_commit_message = proc_out[1]
+                last_update = proc_out[0]
+                repos_file.append((entry.name,last_commit_message, last_update))
+
+            elif entry.is_dir() and not entry.name.endswith(".git"):
                 print(entry.name)
-                repos_dir.append(entry.name)
-    except FileNotFoundError:
+                proc = subprocess.run(['./time_commit.sh', entry.name, filepath], stdout=subprocess.PIPE)    
+                proc_out = proc.stdout.decode('utf-8').split('|')
+                last_commit_message = proc_out[1]
+                last_update = proc_out[0]
+                repos_dir.append((entry.name,last_commit_message, last_update))
+    except Exception:
+        print(Exception)
+        traceback.print_exc()
         raise Http404("Poll does not exist")
+    
     if len(repos_dir) == 0 and len(repos_file) == 0:
        url = "gitlab@13.233.153.31:" + username + "/" + repo_name + ".git"
        return render(request, 'git_land/new_repo.html', {'url': url,'repo_name':repo_name})
+    print(filepath)
+    print('repos_dir',repos_dir,'-------------->  ','repos_file', repos_file)
     return render(request, 'git_land/repos.html', {'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': filepath, 'repo_name': repo_name, 'last_name': last_name, 'md_present': md_present, 'content':content, 'path_tree': path_tree, 'base_path': base_path, 'list_path': list_path})
 
 
@@ -74,7 +88,9 @@ def repo_file(request, username, filepath):
         return redirect('repos_home', username=username)
     file_name = str(filepath).split('/')[-1:][0]
     extension = os.path.splitext('/'+filepath)[1]
-    ext_type = settings.extension_mapping[extension]
+    ext_type = settings.extension_mapping.get(extension)
+    if ext_type is None:
+        ext_type = ""
     list_path = list_of_file_tuples(filepath)
     return render(request, 'git_land/repo_file.html', {'content': content, 'ext_type': ext_type, 'file_name': file_name, 'list_path': list_path})
 
@@ -84,23 +100,21 @@ def repos_home(request, username):
     user = request.user
     path = request.path
     username = user.username
+    all_repos = user.repositories.all()
     repos = os.listdir('/home/gitlab/' + username)
     print(repos)
     repos_file = []
     repos_dir = []
     base_path = 'home/gitlab/' + username
-    for entry in os.scandir('/'+base_path):
-        if entry.is_file():
-            print(entry.name)
-            repos_file.append(entry.name)
-    for entry in os.scandir('/'+base_path):
-        if entry.is_dir() and not entry.name.endswith(".git"):
-            print(entry.name)
-            repos_dir.append(entry.name)
-    
-    
-
-    return render(request, 'git_land/repos.html', {'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': base_path})
+    # for entry in os.scandir('/'+base_path):
+    #     if entry.is_file():
+    #         print(entry.name)
+    #         repos_file.append(entry.name)
+    # for entry in os.scandir('/'+base_path):
+    #     if entry.is_dir() and not entry.name.endswith(".git"):
+    #         print(entry.name)
+    #         repos_dir.append(entry.name)
+    return render(request, 'git_land/repos.html', {'all_repos':all_repos, 'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': base_path})
 
 
 def signup(request):
@@ -126,14 +140,14 @@ def repo_form(request, username):
             username = request.user.username
             repo_data = Repository()
             repo_name = form.cleaned_data['repo_name']
-            subprocess.run(
-                ['./create_repo.sh', username, repo_name], stdout=subprocess.PIPE)
             repo_path = '/home/gitlab/' + username + '/' + repo_name
             repo_data.user = request.user
             repo_data.name = repo_name
             repo_data.repo_path = repo_path
             repo_data.last_update = timezone.now()
             repo_data.save()
+            subprocess.run(
+                ['./create_repo.sh', username, repo_name], stdout=subprocess.PIPE)
             # return redirect('repos_home', username=username)
             # url = "gitlab@13.233.153.31:" + username + "/" + repo_name + ".git"
             return redirect('repos', username = username, filepath = repo_path)
@@ -147,10 +161,10 @@ def repo_form(request, username):
 def list_of_file_tuples(filepath):
     list_of_tuples=[]
     all_dirs = str(filepath).split('/')
-    base_dirs = str(filepath).split('/')[:3]
+    base_dirs = str(filepath).split('/')[:4]
     print(base_dirs)
-    base_path = base_dirs[0]+'/'+base_dirs[1]+'/'+base_dirs[2]
-    path_tree = str(filepath).split('/')[3:]
+    base_path = base_dirs[0]+'/'+base_dirs[1]+'/'+base_dirs[2]+ '/' + base_dirs[3]
+    path_tree = str(filepath).split('/')[4:]
     path = base_path
     i=0
     for file_name in path_tree:

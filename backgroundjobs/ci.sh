@@ -10,12 +10,10 @@
 git checkout $1
 
 path_for_testing=$(find -iname "docker-compose.yml" -printf '%h' -quit)
-
-if [ $path_for_testing!='' ]
+if [ $path_for_testing ]
 then
     # find the direcotry which contains docker-compose.yml and change the pwd to it
     cd $path_for_testing
-    $(pwd)
     # build the containers from the docker-compose
     timeout --preserve-status -k 100 100 docker-compose up --build
 
@@ -41,6 +39,7 @@ then
     fi
 else
     echo "docker-compose.yml file is not found"
+    git checkout master > /dev/null 2>&1
     exit 3
 fi
 # sudo docker-compose up --build

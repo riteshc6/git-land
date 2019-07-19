@@ -74,3 +74,4 @@ def test_log(request,username,repo_name,test_id):
 
 if __name__=='__main__':
     call_celery(sys.argv[1],sys.argv[2],sys.argv[3])
+

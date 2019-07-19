@@ -3,6 +3,8 @@ from celery.decorators import task
 import os
 import subprocess
 from git_land.models import Test_info, Repository
+from django.utils import timezone
+
 # from .models import Test_info
 
 @task(name='unit-testing')
@@ -13,6 +15,9 @@ def run_the_container(repo_path,commit_id,commit_message):
     proc = subprocess.run(['/home/gitlab/git-land/backgroundjobs/ci.sh', commit_id],stdout=subprocess.PIPE,cwd=repo_path)
     test_info=Test_info(commit_id=commit_id,commit_message=commit_message,repo=repo,test_exit_code=proc.returncode,log=proc.stdout.decode('utf-8'))
     test_info.save()
+    repo.last_update=timezone.now()
+    repo.save()
 
     # return {'reslt':test_info.id,'repo_id':repo.id}
     return {'result':test_info.id,'repo_id':repo.id}
+

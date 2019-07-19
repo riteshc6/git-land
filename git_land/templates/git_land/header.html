@@ -18,15 +18,13 @@
         {% else %}
         <h4>Projects</h4>
         {% endif %}
-        {% if file_name %}
         {% for dir,path in list_path %}
-        <a href="{% url 'repo_file' username=user.username filepath=path %}">{{dir}}</a><span> > </span>
-        {% endfor %}
+        {% if dir == file_name%}
+        <a href="#">{{dir}}</a><span> > </span>
         {% else %}
-        {% for dir,path in list_path %}
         <a href="{% url 'repos' username=user.username filepath=path %}">{{dir}}</a><span> > </span>
-        {% endfor %}
         {% endif %}
+        {% endfor %}
     </div>
     <div class="col-sm-4 valign-wrapper">
         {% if repo_name %}

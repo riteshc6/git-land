@@ -58,8 +58,14 @@
             margin-bottom: 0.05em
         }
 
+        .repo-list,
         .file-list {
             margin-top: 1.5em
+        }
+
+        .repo-list>.row {
+            margin-bottom: 0.5em;
+            margin-top: 0.5em
         }
 
         .file-list>.row {
@@ -77,7 +83,12 @@
         }
 
         a:hover {
-            color: black backgroun
+            color: black;
+            background-color: none
+        }
+
+        .last-update {
+            color: #707070
         }
     </style>
 </head>
@@ -108,13 +119,6 @@
                     <a class="nav-link" href="{% url 'repo_form' username=user.username %}">Add Repository</a>
                 </li>
                 {% endif %}
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="#">Comments</a>
-                </li> -->
-
-                <!-- <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li> -->
             </ul>
             <!-- remove mr-auto and add pull-right -->
             <ul class="navbar-nav pull-right">
