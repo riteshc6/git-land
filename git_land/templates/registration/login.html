@@ -10,8 +10,8 @@
     <button type="submit" class="btn waves-effect orange darken-4 waves-light">Login</button>
 </form>
 <br>
-<a href="{% url 'signup' %}">sign up</a>
-<p><strong>-- OR --</strong></p>
+<a href="{% url 'signup' %}">Sign up</a><br>
   <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google
   </a><br>
+  <a href="{% url 'social:begin' 'github' %}">Login with GitHub</a><br>
 {% endblock %}

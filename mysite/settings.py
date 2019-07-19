@@ -127,7 +127,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='945923114958-en14ocu9t75l8nch0a947ngt2koj0vic.apps.googleusercontent.com'  #Paste CLient Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'l1fv1OirFAiHUJNm1xXpxR2D' #Paste Secret
-
+SOCIAL_AUTH_GITHUB_KEY ='75da37ee629845272645' #Paste Client ID
+SOCIAL_AUTH_GITHUB_SECRET ='cc06cc58d577c01636e029243315a4a452d123e6' #Paste Secret Key
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
