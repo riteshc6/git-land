@@ -31,6 +31,8 @@ def repos(request, username, filepath):
     user = request.user
     path = request.path
     username = user.username
+    list_path = list_of_file_tuples(filepath)
+    print(list_path)
     base_path = str(filepath).split('/')[:2]
     path_tree = str(filepath).split('/')[3:]
     repo_name = str(filepath).split('/')[3]
@@ -54,12 +56,10 @@ def repos(request, username, filepath):
                 repos_dir.append(entry.name)
     except FileNotFoundError:
         raise Http404("Poll does not exist")
-
     if len(repos_dir) == 0 and len(repos_file) == 0:
        url = "gitlab@13.233.153.31:" + username + "/" + repo_name + ".git"
        return render(request, 'git_land/new_repo.html', {'url': url,'repo_name':repo_name})
-    
-    return render(request, 'git_land/repos.html', {'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': filepath, 'repo_name': repo_name, 'last_name': last_name, 'md_present': md_present, 'content':content, 'path_tree': path_tree, 'base_path': base_path})
+    return render(request, 'git_land/repos.html', {'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': filepath, 'repo_name': repo_name, 'last_name': last_name, 'md_present': md_present, 'content':content, 'path_tree': path_tree, 'base_path': base_path, 'list_path': list_path})
 
 
 @login_required
@@ -75,7 +75,8 @@ def repo_file(request, username, filepath):
     file_name = str(filepath).split('/')[-1:][0]
     extension = os.path.splitext('/'+filepath)[1]
     ext_type = settings.extension_mapping[extension]
-    return render(request, 'git_land/repo_file.html', {'content': content, 'ext_type': ext_type, 'file_name': file_name})
+    list_path = list_of_file_tuples(filepath)
+    return render(request, 'git_land/repo_file.html', {'content': content, 'ext_type': ext_type, 'file_name': file_name, 'list_path': list_path})
 
 
 @login_required
@@ -96,6 +97,9 @@ def repos_home(request, username):
         if entry.is_dir() and not entry.name.endswith(".git"):
             print(entry.name)
             repos_dir.append(entry.name)
+    
+    
+
     return render(request, 'git_land/repos.html', {'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': base_path})
 
 
@@ -123,7 +127,7 @@ def repo_form(request, username):
             repo_data = Repository()
             repo_name = form.cleaned_data['repo_name']
             subprocess.run(
-                ['./create_repo.sh', username, repo_name])
+                ['./create_repo.sh', username, repo_name], stdout=subprocess.PIPE)
             repo_path = '/home/gitlab/' + username + '/' + repo_name
             repo_data.user = request.user
             repo_data.name = repo_name
@@ -131,10 +135,27 @@ def repo_form(request, username):
             repo_data.last_update = timezone.now()
             repo_data.save()
             # return redirect('repos_home', username=username)
-            url = "gitlab@13.233.153.31:" + username + "/" + repo_name + ".git"
-            return render(request, 'git_land/new_repo.html', {'url': url,'repo_name':repo_name})
+            # url = "gitlab@13.233.153.31:" + username + "/" + repo_name + ".git"
+            return redirect('repos', username = username, filepath = repo_path)
+            # return render(request, 'git_land/new_repo.html', {'url': url,'repo_name':repo_name})
         return redirect('repo_form', username=username)
     else:
         form = RepoForm()
         return render(request, 'git_land/repo_form.html', {'form': form, 'user': request.user})
 
+
+def list_of_file_tuples(filepath):
+    list_of_tuples=[]
+    all_dirs = str(filepath).split('/')
+    base_dirs = str(filepath).split('/')[:3]
+    print(base_dirs)
+    base_path = base_dirs[0]+'/'+base_dirs[1]+'/'+base_dirs[2]
+    path_tree = str(filepath).split('/')[3:]
+    path = base_path
+    i=0
+    for file_name in path_tree:
+        path = path + '/'  + file_name
+        list_of_tuples.append((path_tree[i],path))
+        i=i+1
+
+    return list_of_tuples

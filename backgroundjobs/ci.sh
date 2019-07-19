@@ -17,7 +17,7 @@ then
     cd $path_for_testing
     $(pwd)
     # build the containers from the docker-compose
-    timeout --preserve-status -k 10 60 docker-compose up --build
+    timeout --preserve-status -k 100 100 docker-compose up --build
 
     exit_code=$?
     echo $exit_code
@@ -25,15 +25,18 @@ then
     then
         echo "timed-out"
         sudo docker-compose down
+	git checkout master > /dev/null 2>&1
         exit 2
     elif [ $exit_code == 0 ]
     then
         echo "passed"
         sudo docker-compose down
+	git checkout master > /dev/null 2>&1
         exit 0
     else
-        echo "failed"
+        echo "test cases failed"
         sudo docker-compose down
+	git checkout master > /dev/null 2>&1
         exit 1
     fi
 else

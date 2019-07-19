@@ -7,5 +7,6 @@ urlpatterns = [
     # path('check_status/<task_id>',views.check_status,name='check_status'),
     # path('user/notifications',views.display_messages,name='notifications'),
     path('<username>/<repo_name>',views.display_all_messages,name='test_result'),
+    path('<username>/<repo_name>/<int:test_id>',views.test_log,name='test_log'),
     # path('test/click',views.test,name='test'),
 ]

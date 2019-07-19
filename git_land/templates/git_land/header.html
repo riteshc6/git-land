@@ -1,0 +1,37 @@
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Warning !</strong> {{message}}
+        </div>
+        </li>
+        {% endfor %}
+</ul>
+{% endif %}
+<div class='row'>
+    <div class="col-sm-8">
+        {% if repo_name %}
+        <h4> {{repo_name}} </h4>
+        {% elif file_name %}
+        <h4>{{file_name}}</h4>
+        {% else %}
+        <h4>Projects</h4>
+        {% endif %}
+        {% if file_name %}
+        {% for dir,path in list_path %}
+        <a href="{% url 'repo_file' username=user.username filepath=path %}">{{dir}}</a><span> > </span>
+        {% endfor %}
+        {% else %}
+        {% for dir,path in list_path %}
+        <a href="{% url 'repos' username=user.username filepath=path %}">{{dir}}</a><span> > </span>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="col-sm-4 valign-wrapper">
+        {% if repo_name %}
+        <a href="/test/{{user.username}}/{{repo_name}}"><button type="button"
+                class="btn waves-effect green darken-3 waves-light  btn-small">Display test results</button></a>
+        {% endif %}
+    </div>
+</div>

@@ -12,11 +12,12 @@ while read oldrev newrev ref
 do
     unset \$(git rev-parse --local-env-vars)
     cd ~/$1/$2
-    git pull
+    git pull > /dev/null 2>&1
+    message=\$(git log -1 --pretty=format:'%s%b' $newrev)
     cd ~/git-land
     source venv/bin/activate
     export DJANGO_SETTINGS_MODULE=mysite.settings
-    python -c "import django; django.setup(); from backgroundjobs.views import call_celery; call_celery('$path', '\$newrev')"
+    python -c "import django; django.setup(); from backgroundjobs.views import call_celery; call_celery('$path', '\$newrev','\$message')"
 done
 
 EOL

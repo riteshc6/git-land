@@ -1,6 +1,6 @@
 {% extends 'git_land/base.html' %}
 {% block content %}
-<h4>{{file_name}}<h4>
+{% include "git_land/header.html" %}
 <pre>
         <code class='{{ext_type}}'>
             {{content}}

@@ -14,11 +14,11 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 
 
-def call_celery(repo_path,commit_id):
+def call_celery(repo_path,commit_id,commit_message):
     # repo_path='/'+repo_path
-    task = run_the_container.delay(repo_path, commit_id)
+    task = run_the_container.delay(repo_path, commit_id,commit_message)
     # return JsonResponse({'Location': reverse('check_status',kwargs={'task_id':task.id}),'status_code':202})
-    return check_status(task.id)
+    return True
 
 
 def check_status(task_id):
@@ -68,6 +68,9 @@ def display_all_messages(request,username,repo_name):
 # def  test(request):
 #     return render(request,'test.html')
 
+def test_log(request,username,repo_name,test_id):
+    test=get_object_or_404(Test_info,id=test_id)
+    return render(request,'testlog.html',{'test':test})
 
 if __name__=='__main__':
-    call_celery(sys.argv[1],sys.argv[2])
+    call_celery(sys.argv[1],sys.argv[2],sys.argv[3])

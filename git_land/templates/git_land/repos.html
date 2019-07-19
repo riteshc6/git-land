@@ -1,6 +1,9 @@
 {% extends 'git_land/base.html' %}
 {% block content %}
-{% if messages %}
+<style>
+   
+</style>
+<!-- {% if messages %}
 <ul class="messages">
     {% for message in messages %}
     <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
@@ -14,44 +17,79 @@
 <div class='row'>
     <div class="col-sm-8">
         {% if repo_name %}
-        <h3> {{repo_name}} </h3>
+        <h4> {{repo_name}} </h4>
         {% else %}
-        <h3>Projects</h3>
+        <h4>Projects</h4>
         {% endif %}
-        {% set path=base_path|add:'' %}
-        {% for dir in path_tree %}
-            {% path = path|add:dir %}
-            <a href="path">{{dir}}</a><span> > </span>
+        {% for dir,path in list_path %}
+        <a href="{% url 'repos' username=user.username filepath=path %}">{{dir}}</a><span> > </span>
         {% endfor %}
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 valign-wrapper">
+        {% if repo_name %}
+        <a href="/test/{{user.username}}/{{repo_name}}"><button type="button"
+                class="btn waves-effect green darken-3 waves-light  btn-small">Display test results</button></a>
+        {% endif %}
     </div>
+</div> -->
+{% include "git_land/header.html" %}
+<div class="file-list">
+    <hr>
+    {% for repo in repos_dir %}
+    <div class='row'>
+        <div class="col-sm-5">
+            <a href="{% url 'repos' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}</a>
+        </div>
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-3">
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    {% for repo in repos_file %}
+    <div class='row'>
+        <div class="col-sm-5">
+            <a href="{% url 'repo_file' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}</a>
+        </div>
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-3">
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
 </div>
-
-{% for repo in repos_dir %}
-<div class='row'>
-    <div class="col-sm-5">
-        <a href="{% url 'repos' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}</a>
+<!-- <div class="file-list">
+    <div class="collection">
+        {% for repo in repos_dir %}
+        <div class='row collection-item'>
+            <div class='col s4'>
+                <a class="" href="{% url 'repos' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}
+                </a>
+            </div>
+            <div class='col s6'>
+                <p>hello</p>
+            </div>
+        </div>
+        {% endfor %}
+        {% for repo in repos_file %}
+        <div class='row collection-item'>
+            <div class='col s4' style="padding:0">
+                <a class=""
+                    href="{% url 'repo_file' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}
+                </a>
+            </div>
+            <div class='col s6'>
+                <p>hello</p>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-    <div class="col-sm-4">
-    </div>
-    <div class="col-sm-3">
-    </div>
-</div>
-{% endfor %}
-{% for repo in repos_file %}
-<div class='row'>
-    <div class="col-sm-5">
-        <a href="{% url 'repo_file' username=user.username filepath=filepath|add:"/"|add:repo %}">{{repo}}</a>
-    </div>
-    <div class="col-sm-4">
-    </div>
-    <div class="col-sm-3">
-    </div>
-</div>
-{% endfor %}
+</div> -->
 {% if last_name == repo_name and md_present %}
-    <pre>
+<pre>
+    <h4>README.md</h4>
         <code class='md'>
             {{content}}
         </code>
