@@ -1,0 +1,41 @@
+{% extends 'git_land/base.html' %}
+{% block content %}
+<div class='row'>
+	<h4>{{test.repo.name}} </h4>
+</div>
+<div class="row" >
+	<a href="/test/{{request.user.username}}/{{test.repo.name}}">
+        <h5>Test Results: </h5></a>
+	<h5>{{test.commit_message}}</h5>
+</div>
+
+<div class="row" >
+	<div class="row" >
+	<h5>	
+        {% if test.test_exit_code == 0 %}
+        Test cases have executed successfully
+        {% elif test.test_exit_code == 1 %}
+        Error was raised during testing
+        {% elif test.test_exit_code == 2 %}
+        Timedout during the testing, exit code: {{test.test_exit_code}}
+        {% endif %}
+   	</h5>
+	</div>    
+</div>
+<div class='col-sm-12'>
+    
+    <p><b>
+	Commit message:&nbsp; </b>{{test.commit_message}}
+   </p>
+    <p><b>
+	Commit id:&nbsp; </b>{{test.commit_id}}
+   </p>
+    <p><b>
+	Tested at: </b> {{test.timestamp|date:'Y-m-d H:i'}}<br>
+   </p>
+        <pre><code class='log'>{{test.log}}</code></pre>
+   
+
+</div>
+
+{% endblock %}
