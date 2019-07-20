@@ -3,8 +3,13 @@
 
 <head>
     <title>GitLand</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.2.0/css/bootstrap.min.css">
-    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.2.0/css/bootstrap.min.css">
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
     <link
         href="https://images.ctfassets.net/bx16dovk9m7p/3JlZxRgdj24U8Iyq0cGiwq/b89d73fbc27c4fb5e96ea33f2a0f9483/GitLab.png"
         rel='icon'>
@@ -17,7 +22,7 @@
     <script src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.6.0/dist/highlightjs-line-numbers.min.js">
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
@@ -94,45 +99,44 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark app-nav" style="background-color:#4a148c; height: 40px">
-        <a class="navbar-brand" href="#">
-            <img src="https://images.ctfassets.net/bx16dovk9m7p/3JlZxRgdj24U8Iyq0cGiwq/b89d73fbc27c4fb5e96ea33f2a0f9483/GitLab.png"
-                height="30" alt="">
-        </a>
-        {% if user.is_authenticated %}
-        <a class="navbar-brand" href="{% url 'repos_home' username=user.username %}">GitLand</a>
-        {% else %}
-        <a class="navbar-brand" href="#">GitLand</a>
-        {% endif %}
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+    <nav class="navbar navbar-inverse" style="background-color:#4a148c; height: 40px">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="https://images.ctfassets.net/bx16dovk9m7p/3JlZxRgdj24U8Iyq0cGiwq/b89d73fbc27c4fb5e96ea33f2a0f9483/GitLab.png"
+                        height="30" alt="">
+                </a>
                 {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'repos_home' username=user.username %}">Repositories</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'repo_form' username=user.username %}">Add Repository</a>
-                </li>
+                <a class="navbar-brand" href="{% url 'repos_home' username=user.username %}">GitLand</a>
+                {% else %}
+                <a class="navbar-brand" href="#">GitLand</a>
                 {% endif %}
-            </ul>
-            <!-- remove mr-auto and add pull-right -->
-            <ul class="navbar-nav pull-right">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">{{user.username}}</a>
-                </li>
-                <li class="nav-item">
-                    {% if user.is_anonymous %}
-                    <a class="nav-link" href="{% url 'login'%}">login</a>
-                    {% else %}
-                    <a class="nav-link" href="{% url 'logout' %}">logout</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    {% if user.is_authenticated %}
+                    <li class="">
+                        <a class="nav-link" href="{% url 'repos_home' username=user.username %}">Repositories</a>
+                    </li>
+                    <li class="">
+                        <a class="nav-link" href="{% url 'repo_form' username=user.username %}">Add Repository</a>
+                    </li>
                     {% endif %}
-                </li>
-            </ul>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_anonymous %}
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    {% else %}
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span>{{user.username}}</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
 
