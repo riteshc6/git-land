@@ -33,7 +33,7 @@ class Test_info(models.Model):
     test_exit_code = models.IntegerField()
     log = models.TextField()
     timestamp = models.DateTimeField(default=timezone.now)
-
+    new_message=models.BooleanField(default=True,null=True)
 
 def __str__(self):
     return self.commit_id

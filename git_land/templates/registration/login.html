@@ -1,17 +1,41 @@
 {% extends 'git_land/base.html' %}
 
 {% block title %}Login{% endblock %}
-
 {% block content %}
-<h2>Login</h2>
+<style>
+  .o-auth {
+    color: #2e2e2e
+  }
+
+  .o-auth img {
+    margin-right: 10px
+  }
+
+</style>
+<div class="row">
+<div class="col s5">
+<h2>Login</h3>
 <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn waves-effect orange darken-4 waves-light">Login</button>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn waves-effect green darken-3 waves-light">Login</button>
 </form>
-<br>
-<a href="{% url 'signup' %}">Sign up</a><br>
-  <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google
-  </a><br>
-  <a href="{% url 'social:begin' 'github' %}">Login with GitHub</a><br>
+</div>
+</div>
+</br>
+<div class="row o-auth">
+  <h6 style="font-weight:500">sign in with</h6>
+  <br>
+  <div class="col s1 "><a href="{% url 'social:begin' 'google-oauth2' %}" class="btn white darken-4">
+      <img width="20px" alt="Google &quot;G&quot; Logo"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+      <span style="color:#2e2e2e"> Google</span>
+    </a>
+  </div>
+  <div class="col s1 offset-s1"><a href="{% url 'social:begin' 'github' %}" class="btn white darken-4">
+      <img width="20px" alt="GitHub" title="Sign in with GitHub" class="js-lazy-loaded qa-js-lazy-loaded"
+        src="https://assets.gitlab-static.net/assets/auth_buttons/github_64-84041cd0ea392220da96f0fb9b9473c08485c4924b98c776be1bd33b0daab8c0.png">
+      <span style="color:#2e2e2e"> Github</span>
+    </a>
+  </div>
 {% endblock %}

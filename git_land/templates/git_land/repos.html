@@ -7,7 +7,7 @@
         <tr>
             <th scope="col">Name</th>
             <th scope="col">Last commit</th>
-	    <th scope="col">Last update</th>
+            <th scope="col">Last update</th>
         </tr>
     </thead>
     <tbody>
@@ -31,7 +31,7 @@
                 </div>
             </td>
             <td>{{last_commit}}</td>
-	    <td>{{last_update}}</td>
+            <td>{{last_update}}</td>
         </tr>
         {% endfor %}
     </tbody>
@@ -47,7 +47,7 @@
         <div class="col-sm-3">
         </div>
         <div class="col-sm-4">
-            <p class="last-update">last updated {{repo.last_update}}</p>
+            <p class="last-update">Updated {{repo.last_update|timesince}} ago</p>
         </div>
     </div>
     <hr>

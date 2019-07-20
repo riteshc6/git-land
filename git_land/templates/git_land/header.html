@@ -1,4 +1,4 @@
-{% if messages %}
+<!-- {% if messages %}
 <ul class="messages">
     {% for message in messages %}
     <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
@@ -8,9 +8,9 @@
         </li>
         {% endfor %}
 </ul>
-{% endif %}
-<div class='row'>
-    <div class="col-sm-8">
+{% endif %} -->
+<div class='row valign-wrapper'>
+    <div class="col s8">
         {% if repo_name %}
         <h4> {{repo_name}} </h4>
         {% elif file_name %}
@@ -26,7 +26,7 @@
         {% endif %}
         {% endfor %}
     </div>
-    <div class="col-sm-4 valign-wrapper">
+    <div class="col s4 valign">
         {% if repo_name %}
         <a href="/test/{{user.username}}/{{repo_name}}"><button type="button"
                 class="btn waves-effect green darken-3 waves-light  btn-small">Display test results</button></a>

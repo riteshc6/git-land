@@ -3,7 +3,7 @@ import traceback
 import subprocess
 from django.shortcuts import render, get_object_or_404, redirect, Http404
 from django.contrib.auth import login, authenticate
-from .forms import UserRegistrationForm, RepoForm,OauthRegistrationForm,SshForm
+from .forms import RepoForm,OauthRegistrationForm,SshForm
 from .models import Repository, Ssh_key, Test_info
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -46,7 +46,7 @@ def check_ssh_key(request):
                 return render(request,'registration/ssh.html',{'form':form})   
         else:
             form = SshForm()
-        return render(request,'registration/ssh.html',{'form':form})
+        return render(request,'registration/ssh.html',{'form':form, 'ssh_page': True})
     else:
         return redirect('home')
         
@@ -104,7 +104,7 @@ def repos(request, username, filepath):
     except Exception:
         print(Exception)
         traceback.print_exc()
-        raise Http404("Poll does not exist")
+        raise Http404("repos error")
     
     if len(repos_dir) == 0 and len(repos_file) == 0:
        url = "gitlab@13.233.153.31:" + username + "/" + repo_name + ".git"
@@ -138,9 +138,12 @@ def repos_home(request, username):
     user = request.user
     path = request.path
     username = user.username
+    has_ssh = user.ssh_keys.all()
+    if len(has_ssh) == 0:
+        return redirect('check_ssh_key')
     all_repos = user.repositories.all()
-    repos = os.listdir('/home/gitlab/' + username)
-    print(repos)
+    # repos = os.listdir('/home/gitlab/' + username)
+    # print(repos)
     repos_file = []
     repos_dir = []
     base_path = 'home/gitlab/' + username
@@ -155,23 +158,27 @@ def repos_home(request, username):
     return render(request, 'git_land/repos.html', {'all_repos':all_repos, 'repos_dir': repos_dir, 'repos_file': repos_file, 'filepath': base_path})
 
 
-def signup(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('repos_home', username=username)
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'registration/signup.html', {'form': form})
+# def signup(request):
+#     if request.method == 'POST':
+#         form = UserRegistrationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             username = form.cleaned_data.get('username')
+#             raw_password = form.cleaned_data.get('password1')
+#             user = authenticate(username=username, password=raw_password)
+#             login(request, user)
+#             return redirect('repos_home', username=username)
+#     else:
+#         form = UserRegistrationForm()
+#     return render(request, 'registration/signup.html', {'form': form})
 
 
 @login_required
 def repo_form(request, username):
+    user = request.user
+    has_ssh = user.ssh_keys.all()
+    if len(has_ssh) == 0:
+        return redirect('check_ssh_key')
     if request.method == 'POST':
         form = RepoForm(request.POST)
         if form.is_valid():

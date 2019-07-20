@@ -18,8 +18,4 @@
     {% endfor %}
     <button type="submit" class="btn waves-effect orange darken-4 waves-light">Sign up</button>
 </form>
-<p><strong>-- OR --</strong></p>
-<a href="{% url 'social:begin' 'google-oauth2' %}">Signup with Google
-</a><br>
-<a href="{% url 'social:begin' 'github' %}">Signup with GitHub</a><br>
 {% endblock %}
