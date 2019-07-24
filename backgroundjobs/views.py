@@ -89,7 +89,7 @@ def display_message(request):
 def display_all_messages(request,username,repo_name):
     user=User.objects.get(username=username)
     repo=Repository.objects.filter(name=repo_name).filter(user=user).first()
-    test_info=Test_info.objects.filter(repo=repo).all()
+    test_info=Test_info.objects.filter(repo=repo).order_by('-timestamp').all()
     return render(request,'test-results.html',{'test_info':test_info, 'repo_name':repo_name})
 
 

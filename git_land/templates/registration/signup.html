@@ -18,4 +18,20 @@
     {% endfor %}
     <button type="submit" class="btn waves-effect orange darken-4 waves-light">Sign up</button>
 </form>
+<div class="row o-auth">
+  <h6 style="font-weight:500">sign in with</h6>
+  <br>
+  <div class="col s1 "><a href="{% url 'social:begin' 'google-oauth2' %}" class="btn white darken-4">
+      <img width="20px" alt="Google &quot;G&quot; Logo"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+      <span style="color:#2e2e2e"> Google</span>
+    </a>
+  </div>
+  <div class="col s1 offset-s1"><a href="{% url 'social:begin' 'github' %}" class="btn white darken-4">
+      <img width="20px" alt="GitHub" title="Sign in with GitHub" class="js-lazy-loaded qa-js-lazy-loaded"
+        src="https://assets.gitlab-static.net/assets/auth_buttons/github_64-84041cd0ea392220da96f0fb9b9473c08485c4924b98c776be1bd33b0daab8c0.png">
+      <span style="color:#2e2e2e"> Github</span>
+    </a>
+  </div>
+
 {% endblock %}

@@ -16,6 +16,8 @@
         Error was raised during testing
         {% elif test.test_exit_code == 2 %}
         Timedout during the testing, exit code: {{test.test_exit_code}}
+        {% else %}
+        There is no docker-compose.yml file
         {% endif %}
         </h5>
    	<div class='col-sm-8'> 

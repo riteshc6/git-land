@@ -183,13 +183,34 @@
                     var commit_msg = document.createElement('p')
 		    var d=document.createElement('div')
                     d.setAttribute('style','background-color:#f5f5f5;')
- 		    d.setAttribute('class','alert alert-primary border')
 		    result.innerHTML = data[i]['Result']
-                    commit_id.innerHTML = 'Commit id: ' + data[i]['Commit id']
+ 		    d.setAttribute('role','alert')
+                    if(result.innerHTML=='Test cases have executed successfully'){
+                        d.setAttribute('class', 'alert alert-success')
+                    }else if(result.innerHTML=='Error was raised during testing.'){
+                        d.setAttribute('class', 'alert alert-danger')
+                    }else if(result.innerHTML=='Timed out during the execution of test cases. '){
+                        d.setAttribute('class', 'alert alert-warning')
+                    }else{
+                        d.setAttribute('class', 'alert alert-success')
+                    }
+                     
+		    commit_id.innerHTML = 'Commit id: ' + data[i]['Commit id']
                     commit_msg.innerHTML = 'Commit message: ' + data[i]['Commit message']
-		    d.appendChild(result)
-		    d.appendChild(commit_id)
-		    d.appendChild(commit_msg)
+		   // d.appendChild(result)
+		   // d.appendChild(commit_id)
+		   // d.appendChild(commit_msg)
+                    if (typeof data[i]['Result'] !== 'undefined') {
+                        d.appendChild(result)
+                        d.appendChild(commit_id)
+                        d.appendChild(commit_msg)
+                    } else {
+                        no_file_message = document.createElement('p')
+                        no_file_message.innerHTML =
+                            'There is no docker-compose.yml or docker-compose.yaml in the repository, please include one with proper test cases to check for Test results.'
+                        d.appendChild(no_file_message)
+                    }
+   
                     $(".container").prepend(d);
                     //};
                 }
