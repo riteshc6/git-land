@@ -11,7 +11,7 @@ django-celery-results==1.1.2
 django-extensions==2.1.9
 django-filter==2.1.0
 django-timezone-field==3.0
-djangorestframework==3.9.4
+djangorestframework==3.11.2
 gunicorn==19.9.0
 idna==2.8
 isort==4.3.21
